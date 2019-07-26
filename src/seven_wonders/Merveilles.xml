@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<merveille nom="Abu Simbel">
+    <effet categorie="produit manufacture" type="papier"></effet>
+</merveille>
+<merveille nom="Alexandria">
+    <effet categorie="produit manufacture" type="verre"></effet>
+</merveille>
+<merveille nom="Babilon">
+    <effet categorie="matiere premiere" type="argile"></effet>
+</merveille>
+<merveille nom="Byzantium">
+    <effet categorie="matiere premiere" type="pierre"></effet>
+</merveille>
+<merveille nom="Éphesos">
+    <effet categorie="produit manufacture" type="papier"></effet>
+</merveille>
+<merveille nom="Gizah">
+    <effet categorie="matiere premiere" type="pierre"></effet>
+</merveille>
+<merveille nom="The Great Wall • 萬里長城">
+    <effet categorie="produit manufacture" type="tissu"></effet>
+</merveille>
+<merveille nom="Halikarnassós">
+    <effet categorie="produit manufacture" type="tissu"></effet>
+</merveille>
+<merveille nom="Manneken Pis">
+    <effet categorie="piece" quantite="4"></effet>
+</merveille>
+<merveille nom="Olympía">
+    <effet categorie="matiere premiere" type="bois"></effet>
+</merveille>
+<merveille nom="Petra">
+    <effet categorie="matiere premiere" type="argile"></effet>
+</merveille>
+<merveille nom="Rhódos">
+    <effet categorie="matiere premiere" type="minerai"></effet>
+</merveille>
+<merveille nom="Roma">
+    <face id="a">
+        <effet categorie="cout piece" type="leader" valeur="0"></effet>
+    </face>
+    <face id="b">
+        <effet categorie="reduction piece" joueur="gauche" type="leader"></effet>
+        <effet categorie="reduction piece" quantite="2" type="leader"></effet>
+        <effet categorie="reduction piece" joueur="droite" type="leader"></effet>
+    </face>
+</merveille>
+<merveille nom="Stonehenge">
+    <effet categorie="matiere premiere" type="bois"></effet>
+</merveille>

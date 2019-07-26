@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<carteAge age="x--" type="matiere premiere" nom="bassin argileux">
+    <effet categorie="matiere premiere" type="argile"></effet>
+</carteAge>
+<carteAge age="x--" type="matiere premiere" nom="chantier">
+    <effet categorie="matiere premiere" type="bois"></effet>
+</carteAge>
+<carteAge age="x--" type="matiere premiere" nom="filon">
+    <effet categorie="matiere premiere" type="minerai"></effet>
+</carteAge>
+<carteAge age="x--" type="matiere premiere" nom="cavité">
+    <effet categorie="matiere premiere" type="pierre"></effet>
+</carteAge>
+<carteAge age="xx-" type="produit manufacture" nom="presse">
+    <effet categorie="produit manufacture" type="papier"></effet>
+</carteAge>
+<carteAge age="xx-" type="produit manufacture" nom="métier à tisser">
+    <effet categorie="produit manufacture" type="tissu"></effet>
+</carteAge>
+<carteAge age="xx-" type="produit manufacture" nom="verrerie">
+    <effet categorie="produit manufacture" type="verre"></effet>
+</carteAge>
