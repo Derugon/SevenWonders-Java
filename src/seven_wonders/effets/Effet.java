@@ -49,12 +49,7 @@ public abstract class Effet implements DeepCloneable<Effet> {
         final NodeList effets = Objects.requireNonNull( element )
                                        .getElementsByTagName( BALISE_EFFET );
         if ( effets.getLength() == 0 )
-            return new Effet() {
-                @Override
-                public Effet deepClone() {
-                    return null;
-                }
-            };
+            return vide();
         if ( effets.getLength() == 1 )
             return generer( effets.item( 0 ) );
         final EffetCombine effetCombine = new EffetCombine();
@@ -78,6 +73,15 @@ public abstract class Effet implements DeepCloneable<Effet> {
         if ( generateur == null )
             throw new AttributXMLInvalideException( ATTRIBUT_CATEGORIE, attributs );
         return generateur.apply( node );
+    }
+
+    /**
+     * Crée un effet vide
+     *
+     * @return un effet vide
+     */
+    public static Effet vide() {
+        return new EffetVide();
     }
 
     /**
@@ -165,5 +169,15 @@ public abstract class Effet implements DeepCloneable<Effet> {
      */
     public void obtention() {
         obtention.accept( joueur );
+    }
+}
+
+/**
+ * Effet vide
+ */
+final class EffetVide extends Effet {
+    @Override
+    public Effet deepClone() {
+        return new EffetVide();
     }
 }

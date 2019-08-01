@@ -55,6 +55,12 @@ public class CarteIle extends Carte {
     }
 
     @Override
+    public CarteIle affecter( final Joueur joueur ) {
+        super.affecter( joueur );
+        return this;
+    }
+
+    @Override
     public CarteIle deepClone() {
         return new CarteIle( this );
     }

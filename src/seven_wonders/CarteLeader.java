@@ -29,6 +29,12 @@ public class CarteLeader extends Carte {
     }
 
     @Override
+    public CarteLeader affecter( final Joueur joueur ) {
+        super.affecter( joueur );
+        return this;
+    }
+
+    @Override
     public CarteLeader deepClone() {
         return new CarteLeader( this );
     }

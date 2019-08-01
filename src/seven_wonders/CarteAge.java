@@ -100,6 +100,12 @@ public class CarteAge extends Carte {
         this.type = type;
     }
 
+    @Override
+    public CarteAge affecter( final Joueur joueur ) {
+        super.affecter( joueur );
+        return this;
+    }
+
     /**
      * Indique l’âge de la carte
      *

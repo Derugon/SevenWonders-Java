@@ -16,7 +16,7 @@ import seven_wonders.effets.Effet;
 /**
  * Merveille
  */
-public class Merveille {
+public class Merveille implements Possedable {
     /**
      * Étape d’une merveille
      */
@@ -71,15 +71,14 @@ public class Merveille {
     /**
      * Joueur possédant la merveille
      */
-    private final Joueur  joueur;
+    private Joueur        joueur;
 
     /**
      * Crée une merveille
      *
-     * @param nom    nom de la merveille
-     * @param joueur joueur possédant la merveille
+     * @param nom nom de la merveille
      */
-    public Merveille( final String nom, final Joueur joueur ) {
+    public Merveille( final String nom ) {
         Effet effet = null;
         for ( int i = 0 ; i < MERVEILLES.getLength() ; ++i ) {
             final Element element = (Element) MERVEILLES.item( i );
@@ -87,20 +86,16 @@ public class Merveille {
                                            .getNamedItem( "nom" ); //$NON-NLS-1$
             if ( attrNom != null && attrNom.getTextContent()
                                            .equals( nom ) )
-                effet = Effet.generer( joueur, element );
+                effet = Effet.generer( element );
         }
-        this.nom    = nom;
-        this.effet  = effet == null ? Effet.vide( joueur ) : effet;
-        this.joueur = joueur;
+        this.nom   = nom;
+        this.effet = effet == null ? Effet.vide() : effet;
     }
 
-    /**
-     * Indique le joueur possédant la merveille
-     *
-     * @return le joueur possédant la merveille
-     */
-    public Joueur joueur() {
-        return joueur;
+    @Override
+    public Merveille affecter( final Joueur joueur ) {
+        this.joueur = joueur;
+        return this;
     }
 
     /**
@@ -110,5 +105,10 @@ public class Merveille {
      */
     public String nom() {
         return nom;
+    }
+
+    @Override
+    public Joueur possesseur() {
+        return joueur;
     }
 }

@@ -8,7 +8,7 @@ import seven_wonders.utils.DeepCloneable;
 /**
  * Carte de jeu
  */
-public abstract class Carte implements DeepCloneable<Carte> {
+public abstract class Carte implements DeepCloneable<Carte>, Possedable {
     /**
      * Nom de la carte
      */
@@ -21,6 +21,10 @@ public abstract class Carte implements DeepCloneable<Carte> {
      * Effet de la carte
      */
     private final Effet  effet;
+    /**
+     * Joueur possédant la carte
+     */
+    private Joueur       joueur;
 
     /**
      * Crée une copie d’une carte
@@ -50,6 +54,12 @@ public abstract class Carte implements DeepCloneable<Carte> {
     }
 
     @Override
+    public Carte affecter( final Joueur joueur ) {
+        this.joueur = joueur;
+        return this;
+    }
+
+    @Override
     public boolean equals( final Object obj ) {
         return obj instanceof Carte && nom.equals( ( (Carte) obj ).nom );
     }
@@ -66,5 +76,10 @@ public abstract class Carte implements DeepCloneable<Carte> {
      */
     public String nom() {
         return nom;
+    }
+
+    @Override
+    public Joueur possesseur() {
+        return joueur;
     }
 }
