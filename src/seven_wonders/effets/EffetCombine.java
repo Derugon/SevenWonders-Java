@@ -41,6 +41,12 @@ public class EffetCombine extends Effet implements Iterable<Effet> {
         effets = new LinkedList<>( autre.effets );
     }
 
+    @Override
+    public EffetCombine affecter( final Joueur joueur ) {
+        super.affecter( joueur );
+        return this;
+    }
+
     /**
      * Ajoute un/des effet(s) à l’effet combiné
      *

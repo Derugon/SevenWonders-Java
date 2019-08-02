@@ -12,12 +12,13 @@ import org.w3c.dom.NodeList;
 
 import seven_wonders.AttributXMLInvalideException;
 import seven_wonders.Joueur;
+import seven_wonders.Possedable;
 import seven_wonders.utils.DeepCloneable;
 
 /**
  * Effet
  */
-public abstract class Effet implements DeepCloneable<Effet> {
+public abstract class Effet implements DeepCloneable<Effet>, Possedable {
     /**
      * Types d’effets
      */
@@ -123,6 +124,12 @@ public abstract class Effet implements DeepCloneable<Effet> {
         obtention = autre.obtention;
     }
 
+    @Override
+    public Effet affecter( final Joueur joueur ) {
+        this.joueur = joueur;
+        return this;
+    }
+
     /**
      * Applique l’effet à un joueur
      *
@@ -169,6 +176,11 @@ public abstract class Effet implements DeepCloneable<Effet> {
      */
     public void obtention() {
         obtention.accept( joueur );
+    }
+
+    @Override
+    public Joueur possesseur() {
+        return joueur;
     }
 }
 

@@ -1,0 +1,296 @@
+[
+    {
+        "nom": "Abu Simbel",
+        "a": {
+            "effet": {
+                "categorie": "produit manufacture",
+                "type": "papier"
+            },
+            "etapes": [
+                {
+                    "cout": [
+                        {
+                            "categorie": "matiere premiere",
+                            "type": "pierre"
+                        },
+                        {
+                            "categorie": "matiere premiere",
+                            "type": "argile"
+                        }
+                    ],
+                    "effet": {
+                        "categorie": "point de victoire",
+                        "quantite": 3
+                    }
+                },
+                {
+                    "cout": [
+                        {
+                            "categorie": "matiere premiere",
+                            "type": "bois"
+                        },
+                        {
+                            "categorie": "matiere premiere",
+                            "type": "minerai"
+                        }
+                    ],
+                    "effet": {
+                        "categorie": "point de victoire",
+                        "quantite": 5
+                    }
+                },
+                {
+                    "cout": [
+                        {
+                            "categorie": "produit manufacture",
+                            "type": "verre"
+                        },
+                        {
+                            "categorie": "produit manufacture",
+                            "type": "tissu"
+                        },
+                        {
+                            "categorie": "matiere premiere",
+                            "type": "pierre",
+                            "quantite": 2
+                        }
+                    ],
+                    "effet": {
+                        "categorie": "sacrifice"
+                    }
+                }
+            ]
+        },
+        "b": {
+            "effet": {
+                "categorie": "produit manufacture",
+                "type": "papier"
+            },
+            "etapes": [
+                {
+                    "cout": [
+                        {
+                            "categorie": "produit manufacture",
+                            "type": "tissu"
+                        },
+                        {
+                            "categorie": "matiere premiere",
+                            "type": "argile",
+                            "quantite": 2
+                        }
+                    ],
+                    "effet": {
+                        "categorie": "sacrifice"
+                    }
+                },
+                {
+                    "cout": [
+                        {
+                            "categorie": "produit manufacture",
+                            "type": "verre"
+                        },
+                        {
+                            "categorie": "matiere premiere",
+                            "type": "bois",
+                            "quantite": 2
+                        }
+                    ],
+                    "effet": {
+                        "categorie": "sacrifice"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "nom": "Petra",
+        "a": {
+            "effet": {
+                "categorie": "matiere premiere",
+                "type": "argile"
+            },
+            "etapes": [
+                {
+                    "cout": [
+                        {
+                            "categorie": "matiere premiere",
+                            "type": "bois"
+                        },
+                        {
+                            "categorie": "matiere premiere",
+                            "type": "pierre"
+                        }
+                    ],
+                    "effet": {
+                        "categorie": "point de victoire",
+                        "quantite": 3
+                    }
+                },
+                {
+                    "cout": [
+                        {
+                            "categorie": "piece",
+                            "quantite": 7
+                        }
+                    ],
+                    "effet": {
+                        "categorie": "point de victoire",
+                        "quantite": 7
+                    }
+                },
+                {
+                    "cout": [
+                        {
+                            "categorie": "produit manufacture",
+                            "type": "papier"
+                        },
+                        {
+                            "categorie": "matiere premiere",
+                            "type": "bois"
+                        },
+                        {
+                            "categorie": "matiere premiere",
+                            "type": "pierre",
+                            "quantite": 2
+                        }
+                    ],
+                    "effet": {
+                        "categorie": "point de victoire",
+                        "quantite": 7
+                    }
+                }
+            ]
+        },
+        "b": {
+            "effet": {
+                "categorie": "matiere premiere",
+                "type": "argile"
+            },
+            "etapes": [
+                {
+                    "cout": [
+                        {
+                            "categorie": "matiere premiere",
+                            "type": "argile",
+                            "quantite": 2
+                        },
+                        {
+                            "categorie": "matiere premiere",
+                            "type": "minerai",
+                            "quantite": 2
+                        }
+                    ],
+                    "effets": [
+                        {
+                            "categorie": "point de victoire",
+                            "quantite": 3
+                        },
+                        {
+                            "categorie": "dette",
+                            "quantite": 2
+                        }
+                    ]
+                },
+                {
+                    "cout": [
+                        {
+                            "categorie": "piece",
+                            "quantite": 14
+                        }
+                    ],
+                    "effet": {
+                        "categorie": "point de victoire",
+                        "quantite": 14
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "nom": "Manneken Pis",
+        "a": {
+            "effet": {
+                "categorie": "piece",
+                "quantite": 4
+            },
+            "etapes": [
+                {
+                    "effet": {
+                        "categorie": "copie",
+                        "joueur": {
+                            "direction": "gauche"
+                        }
+                    }
+                },
+                {
+                    "effet": {
+                        "categorie": "copie",
+                        "joueur": {
+                            "direction": "droite"
+                        }
+                    }
+                },
+                {
+                    "effet": {
+                        "categorie": "copie",
+                        "etape": -1,
+                        "joueur": {
+                            "direction": "gauche"
+                        }
+                    }
+                }
+            ]
+        },
+        "b": {
+            "effet": {
+                "categorie": "matiere premiere",
+                "type": "argile"
+            },
+            "etape": {
+                "cout": [
+                    {
+                        "categorie": "produit manufacture",
+                        "type": "papier"
+                    },
+                    {
+                        "categorie": "produit manufacture",
+                        "type": "verre"
+                    },
+                    {
+                        "categorie": "produit manufacture",
+                        "type": "tissu"
+                    },
+                    {
+                        "categorie": "matiere premiere",
+                        "type": "bois"
+                    },
+                    {
+                        "categorie": "matiere premiere",
+                        "type": "pierre"
+                    },
+                    {
+                        "categorie": "matiere premiere",
+                        "type": "argile"
+                    },
+                    {
+                        "categorie": "matiere premiere",
+                        "type": "minerai"
+                    }
+                ],
+                "effets": [
+                    {
+                        "categorie": "piece",
+                        "quantite": 7
+                    },
+                    {
+                        "categorie": "point de victoire",
+                        "quantite": 7
+                    },
+                    {
+                        "categorie": "militaire"
+                    }
+                ]
+            }
+        }
+    }
+]

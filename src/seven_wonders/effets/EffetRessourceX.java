@@ -56,6 +56,12 @@ public abstract class EffetRessourceX extends Effet {
     }
 
     @Override
+    public EffetRessourceX affecter( final Joueur joueur ) {
+        super.affecter( joueur );
+        return this;
+    }
+
+    @Override
     public EffetRessourceX appliquer( final Joueur joueur ) {
         super.appliquer( joueur );
         return this;

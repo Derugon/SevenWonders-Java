@@ -3,6 +3,7 @@ package seven_wonders.effets;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
+import seven_wonders.Joueur;
 import seven_wonders.TypeProduitManufacture;
 import seven_wonders.utils.Quantite;
 
@@ -64,6 +65,12 @@ public class EffetProduitManufactureX extends EffetRessourceX {
     public EffetProduitManufactureX( final TypeProduitManufacture type, final Quantite quantite ) {
         super( quantite );
         this.type = type;
+    }
+
+    @Override
+    public EffetProduitManufactureX affecter( final Joueur joueur ) {
+        super.affecter( joueur );
+        return this;
     }
 
     @Override
