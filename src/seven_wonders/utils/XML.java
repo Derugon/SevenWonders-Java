@@ -17,10 +17,12 @@ public class XML {
     /**
      * Convertit le contenu textuel d’une node XML en constante d’énumération
      *
-     * @param  enumeration          énumération
-     * @param  node                 node XML
-     * @return                      la constante d’énumération
-     * @throws NullPointerException si l’énumération ou la node XML est nulle
+     * @param  enumeration              énumération
+     * @param  node                     node XML
+     * @return                          la constante d’énumération
+     * @throws NullPointerException     si l’énumération ou la node XML est nulle
+     * @throws IllegalArgumentException si la classe n’est pas une énumération
+     *                                  valide
      */
     @SuppressWarnings( "unchecked" )
     public static <E extends Enum<E>> E toEnumConstant( final Class<E> enumeration, final Node node ) {
