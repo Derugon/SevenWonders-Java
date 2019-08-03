@@ -13,12 +13,13 @@ import org.w3c.dom.NodeList;
 import seven_wonders.AttributXMLInvalideException;
 import seven_wonders.Joueur;
 import seven_wonders.Possedable;
+import seven_wonders.utils.ConvertibleJSON;
 import seven_wonders.utils.DeepCloneable;
 
 /**
  * Effet
  */
-public abstract class Effet implements DeepCloneable<Effet>, Possedable {
+public abstract class Effet implements DeepCloneable<Effet>, ConvertibleJSON, Possedable {
     /**
      * Types d’effets
      */

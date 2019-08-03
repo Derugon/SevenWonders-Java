@@ -3,17 +3,18 @@ package seven_wonders.utils;
 import java.util.Objects;
 import java.util.function.IntConsumer;
 
+import org.json.JSONString;
+
 /**
  * Quantité
  */
-public class Quantite extends Number implements Comparable<Number>, DeepCloneable<Quantite> {
+public class Quantite extends Number implements Comparable<Number>, DeepCloneable<Quantite>, JSONString {
     /**
      * Identificateur
      */
     private static final long serialVersionUID = 1494770605602731878L;
 
-    private static final IntConsumer RESTE_VIDE     = reste -> { /* ... */ };
-    private static final Procedure   PROCEDURE_VIDE = () -> { /* ... */ };
+    private static final IntConsumer RESTE_VIDE = reste -> { /* ... */ };
 
     /**
      * Crée une quantité par la somme de quantités
@@ -137,7 +138,7 @@ public class Quantite extends Number implements Comparable<Number>, DeepCloneabl
      * @return la quantité
      */
     public Quantite decrementerLimite() {
-        return decrementerLimite( PROCEDURE_VIDE );
+        return decrementerLimite( Procedure.VIDE );
     }
 
     /**
@@ -184,6 +185,11 @@ public class Quantite extends Number implements Comparable<Number>, DeepCloneabl
         return intValue();
     }
 
+    @Override
+    public boolean equals( final Object obj ) {
+        return obj instanceof Quantite && valeur == ( (Quantite) obj ).valeur;
+    }
+
     /**
      * Fixe la valeur de la quantité
      *
@@ -201,6 +207,11 @@ public class Quantite extends Number implements Comparable<Number>, DeepCloneabl
     @Override
     public float floatValue() {
         return intValue();
+    }
+
+    @Override
+    public int hashCode() {
+        return valeur;
     }
 
     /**
@@ -306,5 +317,15 @@ public class Quantite extends Number implements Comparable<Number>, DeepCloneabl
             reste.accept( valeur - this.valeur );
         }
         return this;
+    }
+
+    @Override
+    public String toJSONString() {
+        return toString();
+    }
+
+    @Override
+    public String toString() {
+        return Integer.toString( valeur );
     }
 }

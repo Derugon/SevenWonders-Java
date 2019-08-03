@@ -4,6 +4,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Objects;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import seven_wonders.Joueur;
 
 /**
@@ -82,6 +85,11 @@ public class EffetCombine extends Effet implements Iterable<Effet> {
     }
 
     @Override
+    public boolean estJSONObject() {
+        return effets.size() == 1;
+    }
+
+    @Override
     public int hashCode() {
         return 31 * super.hashCode() + effets.hashCode();
     }
@@ -89,5 +97,24 @@ public class EffetCombine extends Effet implements Iterable<Effet> {
     @Override
     public Iterator<Effet> iterator() {
         return effets.iterator();
+    }
+
+    @Override
+    public JSONArray toJSONArray() {
+        final JSONArray jsonArray = new JSONArray();
+        for ( final Effet effet : effets )
+            if ( effet.estJSONObject() )
+                jsonArray.put( effet.toJSONObject() );
+            else
+                for ( final Object sousEffet : effet.toJSONArray() )
+                    jsonArray.put( sousEffet );
+        return jsonArray;
+    }
+
+    @Override
+    public JSONObject toJSONObject() {
+        return estJSONObject() ? effets.get( 0 )
+                                       .toJSONObject()
+                : null;
     }
 }

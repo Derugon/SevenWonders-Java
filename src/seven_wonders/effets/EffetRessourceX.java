@@ -3,6 +3,8 @@ package seven_wonders.effets;
 import java.util.TreeMap;
 import java.util.function.BiFunction;
 
+import org.json.JSONObject;
+
 import seven_wonders.Joueur;
 import seven_wonders.TypeRessource;
 import seven_wonders.utils.Quantite;
@@ -77,6 +79,11 @@ public abstract class EffetRessourceX extends Effet {
     }
 
     @Override
+    public boolean estJSONObject() {
+        return true;
+    }
+
+    @Override
     public int hashCode() {
         return 31 * super.hashCode() + quantite.hashCode();
     }
@@ -95,6 +102,11 @@ public abstract class EffetRessourceX extends Effet {
      */
     public void reinitialiser() {
         utilisation.replaceAll( REINITIALISER );
+    }
+
+    @Override
+    public JSONObject toJSONObject() {
+        return new JSONObject().put( "quantite", quantite.intValue() ); //$NON-NLS-1$
     }
 
     /**

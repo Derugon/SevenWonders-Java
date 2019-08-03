@@ -111,6 +111,11 @@ public class QuantiteLimitee extends Quantite {
         return new QuantiteLimitee( this );
     }
 
+    @Override
+    public boolean equals( final Object obj ) {
+        return obj instanceof QuantiteLimitee && super.equals( obj ) && limite == ( (QuantiteLimitee) obj ).limite;
+    }
+
     /**
      * Fixe la valeur de la quantité
      *
@@ -127,6 +132,11 @@ public class QuantiteLimitee extends Quantite {
             throw new QuantiteLimiteeInvalideException( limite, valeur );
         super.fixer( valeur );
         return this;
+    }
+
+    @Override
+    public int hashCode() {
+        return 31 * super.hashCode() + limite;
     }
 
     /**
@@ -219,5 +229,10 @@ public class QuantiteLimitee extends Quantite {
         } catch ( @SuppressWarnings( "unused" ) final QuantiteInvalideException e ) { /* ... */ }
         super.retirerLimite( valeur, reste );
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + '/' + limite;
     }
 }

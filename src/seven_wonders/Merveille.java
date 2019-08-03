@@ -1,22 +1,20 @@
 package seven_wonders;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import seven_wonders.effets.Effet;
+import seven_wonders.utils.ConvertibleJSON;
 
 /**
  * Merveille
  */
-public class Merveille implements Possedable {
+public class Merveille implements ConvertibleJSON, Possedable {
     /**
      * Étape d’une merveille
      */
@@ -42,16 +40,12 @@ public class Merveille implements Possedable {
         }
     }
 
-    private static NodeList MERVEILLES = null;
+    private static JSONArray MERVEILLES = null;
 
     static {
         try {
-            MERVEILLES = DocumentBuilderFactory.newInstance()
-                                               .newDocumentBuilder()
-                                               .parse( new File( "Merveilles.xml" ) ) //$NON-NLS-1$
-                                               .getDocumentElement()
-                                               .getElementsByTagName( "merveille" ); //$NON-NLS-1$
-        } catch ( final ParserConfigurationException | SAXException | IOException e ) {
+            MERVEILLES = new JSONArray( new String( Files.readAllBytes( Paths.get( "Merveilles.json" ) ) ) );
+        } catch ( final JSONException | IOException e ) {
             e.printStackTrace();
         }
     }
@@ -76,17 +70,27 @@ public class Merveille implements Possedable {
     /**
      * Crée une merveille
      *
-     * @param nom nom de la merveille
+     * @param nom   nom de la merveille
+     * @param faceB si la face b doit être prise au lieu de la face a
      */
-    public Merveille( final String nom ) {
-        Effet effet = null;
-        for ( int i = 0 ; i < MERVEILLES.getLength() ; ++i ) {
-            final Element element = (Element) MERVEILLES.item( i );
-            final Node    attrNom = element.getAttributes()
-                                           .getNamedItem( "nom" ); //$NON-NLS-1$
-            if ( attrNom != null && attrNom.getTextContent()
-                                           .equals( nom ) )
-                effet = Effet.generer( element );
+    public Merveille( final String nom, final boolean faceB ) {
+        Effet         effet   = null;
+        final boolean trouvee = false;
+        for ( int i = 0 ; !trouvee ; ++i ) {
+            if ( i >= MERVEILLES.length() )
+                throw new IllegalArgumentException( "merveille inexistante :" + nom ); //$NON-NLS-1$
+            final JSONObject merveille = MERVEILLES.getJSONObject( i );
+            final String     attrNom   = merveille.getString( "nom" ); //$NON-NLS-1$
+            if ( attrNom.equals( nom ) ) {
+                final JSONObject face = merveille.getJSONObject( faceB ? "b" : "a" ); //$NON-NLS-1$ //$NON-NLS-2$
+                try {
+                    effet = Effet.generer( face.getJSONArray( "effets" ) ); //$NON-NLS-1$
+                } catch ( final JSONException e ) {
+                    try {
+                        effet = Effet.generer( face.getJSONObject( "effet" ) ); //$NON-NLS-1$
+                    } catch ( final JSONException e2 ) { /* ... */ }
+                }
+            }
         }
         this.nom   = nom;
         this.effet = effet == null ? Effet.vide() : effet;
@@ -110,5 +114,10 @@ public class Merveille implements Possedable {
     @Override
     public Joueur possesseur() {
         return joueur;
+    }
+
+    @Override
+    public JSONObject toJSONObject() {
+        return null;
     }
 }

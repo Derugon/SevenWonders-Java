@@ -8,6 +8,11 @@ import java.util.Objects;
 @FunctionalInterface
 public interface Procedure {
     /**
+     * Procédure vide
+     */
+    Procedure VIDE = () -> { /* ... */ };
+
+    /**
      * Crée une procédure qui exécute celle indiquée puis celle-ci
      *
      * @param  avant                procédure à exécuter avant
