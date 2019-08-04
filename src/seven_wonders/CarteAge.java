@@ -14,7 +14,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import seven_wonders.effets.Effet;
-import seven_wonders.utils.XML;
+import seven_wonders.utils.JSON;
 
 /**
  * Carte d’âge
@@ -57,7 +57,7 @@ public class CarteAge extends Carte {
                                              .getTextContent(),
                                     age ) )
                 return new CarteAge( nom, Cout.generer( element ), Effet.generer( element ), age,
-                                     XML.toEnumConstant( TypeCarteAge.class,
+                                     JSON.toEnumConstant( TypeCarteAge.class,
                                                          attributs.getNamedItem( ATTRIBUT_TYPE ) ) );
         }
         return null;

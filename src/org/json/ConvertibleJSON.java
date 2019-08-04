@@ -1,11 +1,11 @@
-package seven_wonders.utils;
+package org.json;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONString;
 
 /**
- * Fournit une méthode pour convertir en élément JSON, en plus d’une chaîne de
+ * Fournit des méthodes pour convertir en élément JSON, en plus d’une chaîne de
  * caractères
  */
 public interface ConvertibleJSON extends JSONString {

@@ -1,5 +1,6 @@
 package seven_wonders.effets;
 
+import java.util.Objects;
 import java.util.TreeMap;
 import java.util.function.BiFunction;
 
@@ -15,6 +16,8 @@ import seven_wonders.utils.QuantiteLimiteeInvalideException;
  * Effet produisant une ressource
  */
 public abstract class EffetRessourceX extends Effet {
+    private static final String ATTRIBUT_QUANTITE = "quantite"; //$NON-NLS-1$
+
     private static final BiFunction<Joueur, QuantiteLimitee, QuantiteLimitee> REINITIALISER = ( joueur,
                                                                                                 quantite ) -> quantite.reinitialiser();
 
@@ -47,6 +50,17 @@ public abstract class EffetRessourceX extends Effet {
     }
 
     /**
+     * Crée un effet produisant une ressource à partir d’un objet JSON
+     *
+     * @param  objet                objet JSON
+     * @throws NullPointerException si l’objet JSON est nul
+     */
+    public EffetRessourceX( final JSONObject objet ) {
+        this( new Quantite( Objects.requireNonNull( objet )
+                                   .getInt( ATTRIBUT_QUANTITE ) ) );
+    }
+
+    /**
      * Crée un effet produisant une ressource
      *
      * @param quantite quantité de ressource produite
@@ -74,7 +88,7 @@ public abstract class EffetRessourceX extends Effet {
 
     @Override
     public boolean equals( final Object obj ) {
-        return super.equals( obj ) && obj instanceof EffetRessourceX
+        return obj instanceof EffetRessourceX && super.equals( obj )
                && quantite.equals( ( (EffetRessourceX) obj ).quantite );
     }
 
@@ -85,7 +99,7 @@ public abstract class EffetRessourceX extends Effet {
 
     @Override
     public int hashCode() {
-        return 31 * super.hashCode() + quantite.hashCode();
+        return 4 * super.hashCode() + quantite.hashCode();
     }
 
     /**
@@ -106,7 +120,8 @@ public abstract class EffetRessourceX extends Effet {
 
     @Override
     public JSONObject toJSONObject() {
-        return new JSONObject().put( "quantite", quantite.intValue() ); //$NON-NLS-1$
+        return quantite.intValue() == 1 ? new JSONObject().put( ATTRIBUT_QUANTITE, quantite.intValue() )
+                : new JSONObject();
     }
 
     /**

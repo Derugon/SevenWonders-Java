@@ -1,4 +1,4 @@
-package seven_wonders.utils;
+package java.util.function;
 
 import java.util.Objects;
 

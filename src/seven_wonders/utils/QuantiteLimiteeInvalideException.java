@@ -16,7 +16,7 @@ public class QuantiteLimiteeInvalideException extends RuntimeException {
      * @param valeur valeur obtenue
      */
     public QuantiteLimiteeInvalideException( final int limite, final int valeur ) {
-        super( Messages.getString( "QuantiteLimiteeInvalideException.message", Integer.toString( limite ) ) + valeur ); //$NON-NLS-1$
+        super( "quantité limite de " + limite + " dépassée, quantité obtenue : " + valeur ); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -26,5 +26,15 @@ public class QuantiteLimiteeInvalideException extends RuntimeException {
      */
     public QuantiteLimiteeInvalideException( final String message ) {
         super( message );
+    }
+
+    /**
+     * Crée une exception
+     *
+     * @param message message à afficher
+     * @param cause   cause de l’exception
+     */
+    public QuantiteLimiteeInvalideException( final String message, final Throwable cause ) {
+        super( message, cause );
     }
 }

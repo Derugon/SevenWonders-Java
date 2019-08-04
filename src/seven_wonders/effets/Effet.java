@@ -5,15 +5,13 @@ import java.util.TreeMap;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.json.AttributJSONInvalideException;
+import org.json.ConvertibleJSON;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import seven_wonders.AttributXMLInvalideException;
 import seven_wonders.Joueur;
 import seven_wonders.Possedable;
-import seven_wonders.utils.ConvertibleJSON;
 import seven_wonders.utils.DeepCloneable;
 
 /**
@@ -23,58 +21,45 @@ public abstract class Effet implements DeepCloneable<Effet>, ConvertibleJSON, Po
     /**
      * Types d’effets
      */
-    private static final TreeMap<String, Function<Node, ? extends Effet>> categoriesEffets = new TreeMap<>();
+    private static final TreeMap<String, Function<JSONObject, ? extends Effet>> categoriesEffets = new TreeMap<>();
 
     private static final String ATTRIBUT_CATEGORIE = "categorie"; //$NON-NLS-1$
-    private static final String BALISE_EFFET       = "effet";     //$NON-NLS-1$
 
     protected static final Consumer<Joueur> OBTENTION_VIDE = ( final Joueur joueur ) -> { /* ... */ };
 
     /**
-     * Ajoute un type d’effet
+     * Génère un effet à l’aide d’une liste JSON
      *
-     * @param identificateur identificateur de l’effet
-     * @param generateur     fonction génératrice de l’effet
-     */
-    public static void ajouterType( final String identificateur, final Function<Node, ? extends Effet> generateur ) {
-        categoriesEffets.putIfAbsent( identificateur, generateur );
-    }
-
-    /**
-     * Génère un effets à l’aide d’un conteneur XML
-     *
-     * @param  element              élément XML contenant un/des effet(s)
+     * @param  effets               liste JSON
      * @return                      l’effet généré
-     * @throws NullPointerException si l’élément XML est nul
+     * @throws NullPointerException si la liste JSON est nulle
      */
-    public static Effet generer( final Element element ) {
-        final NodeList effets = Objects.requireNonNull( element )
-                                       .getElementsByTagName( BALISE_EFFET );
-        if ( effets.getLength() == 0 )
+    public static Effet generer( final JSONArray effets ) {
+        switch ( effets.length() ) {
+        case 0:
             return vide();
-        if ( effets.getLength() == 1 )
-            return generer( effets.item( 0 ) );
-        final EffetCombine effetCombine = new EffetCombine();
-        for ( int i = 0 ; i < effets.getLength() ; ++i )
-            effetCombine.ajouter( generer( effets.item( i ) ) );
-        return effetCombine;
+        case 1:
+            return generer( (JSONObject) effets.get( 0 ) );
+        default:
+            final EffetCombine effetCombine = new EffetCombine();
+            for ( final Object effet : effets )
+                effetCombine.ajouter( generer( (JSONObject) effet ) );
+            return effetCombine;
+        }
     }
 
     /**
-     * Génère un effet à l’aide d’une node XML
+     * Génère un effet à l’aide d’un objet JSON
      *
-     * @param  node                 node XML
+     * @param  effet                objet JSON
      * @return                      l’effet généré
-     * @throws NullPointerException si la node XML est nulle
+     * @throws NullPointerException si l’objet JSON est nul
      */
-    public static Effet generer( final Node node ) {
-        final NamedNodeMap                    attributs  = Objects.requireNonNull( node )
-                                                                  .getAttributes();
-        final Function<Node, ? extends Effet> generateur = categoriesEffets.get( attributs.getNamedItem( ATTRIBUT_CATEGORIE )
-                                                                                          .getTextContent() );
+    public static Effet generer( final JSONObject effet ) {
+        final Function<JSONObject, ? extends Effet> generateur = categoriesEffets.get( effet.get( ATTRIBUT_CATEGORIE ) );
         if ( generateur == null )
-            throw new AttributXMLInvalideException( ATTRIBUT_CATEGORIE, attributs );
-        return generateur.apply( node );
+            throw new AttributJSONInvalideException( ATTRIBUT_CATEGORIE, effet );
+        return generateur.apply( effet );
     }
 
     /**
@@ -84,6 +69,17 @@ public abstract class Effet implements DeepCloneable<Effet>, ConvertibleJSON, Po
      */
     public static Effet vide() {
         return new EffetVide();
+    }
+
+    /**
+     * Ajoute un type d’effet
+     *
+     * @param identificateur identificateur de l’effet
+     * @param generateur     fonction génératrice de l’effet
+     */
+    protected static void ajouterType( final String identificateur,
+                                       final Function<JSONObject, ? extends Effet> generateur ) {
+        categoriesEffets.putIfAbsent( identificateur, generateur );
     }
 
     /**

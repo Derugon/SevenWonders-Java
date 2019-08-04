@@ -1,33 +1,22 @@
 package seven_wonders.effets;
 
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
+import java.util.Objects;
+
+import org.json.JSONObject;
 
 import seven_wonders.Joueur;
 import seven_wonders.TypeProduitManufacture;
+import seven_wonders.utils.JSON;
 import seven_wonders.utils.Quantite;
 
 /**
  * Effet produisant une matière première
  */
 public class EffetProduitManufactureX extends EffetRessourceX {
-    private static final String TYPE = "type"; //$NON-NLS-1$
+    private static final String ATTRIBUT_TYPE = "type"; //$NON-NLS-1$
 
     static {
-        Effet.ajouterType( "produit manufacture", EffetProduitManufactureX::generer ); //$NON-NLS-1$
-    }
-
-    /**
-     * Génère un effet à l’aide d’une node XML
-     *
-     * @param  node node XML
-     * @return      l’effet généré
-     */
-    public static EffetProduitManufactureX generer( final Node node ) {
-        final NamedNodeMap attributs = node.getAttributes();
-        return new EffetProduitManufactureX( TypeProduitManufacture.valueOf( attributs.getNamedItem( TYPE )
-                                                                                      .getTextContent()
-                                                                                      .toUpperCase() ) );
+        Effet.ajouterType( "produit manufacture", objet -> new EffetProduitManufactureX( objet ) ); //$NON-NLS-1$
     }
 
     /**
@@ -44,6 +33,18 @@ public class EffetProduitManufactureX extends EffetRessourceX {
     public EffetProduitManufactureX( final EffetProduitManufactureX autre ) {
         super( autre );
         type = autre.type;
+    }
+
+    /**
+     * Crée un effet produisant un produit manufacturé à partir d’un objet JSON
+     *
+     * @param  objet                objet JSON
+     * @throws NullPointerException si l’objet JSON est nul
+     */
+    public EffetProduitManufactureX( final JSONObject objet ) {
+        super( objet );
+        type = JSON.toEnumConstant( TypeProduitManufacture.class, Objects.requireNonNull( objet )
+                                                                         .getString( ATTRIBUT_TYPE ) );
     }
 
     /**
@@ -90,13 +91,18 @@ public class EffetProduitManufactureX extends EffetRessourceX {
 
     @Override
     public boolean equals( final Object obj ) {
-        return super.equals( obj ) && obj instanceof EffetProduitManufactureX
+        return obj instanceof EffetProduitManufactureX && super.equals( obj )
                && type.equals( ( (EffetProduitManufactureX) obj ).type );
     }
 
     @Override
     public int hashCode() {
         return 31 * super.hashCode() + type.hashCode();
+    }
+
+    @Override
+    public JSONObject toJSONObject() {
+        return super.toJSONObject().put( ATTRIBUT_TYPE, JSON.fromEnumConstant( type ) );
     }
 
     /**

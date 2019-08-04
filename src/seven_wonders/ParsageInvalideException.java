@@ -1,7 +1,5 @@
 package seven_wonders;
 
-import seven_wonders.utils.Messages;
-
 /**
  * Exception lancée lorsqu’un parsage de chaîne de caractère échoue
  */
@@ -27,6 +25,16 @@ public class ParsageInvalideException extends RuntimeException {
      * @param valeur  valeur parsée
      */
     public ParsageInvalideException( final String parsage, final String valeur ) {
-        super( Messages.getString( "ParsageInvalideException.message", parsage ) + valeur ); //$NON-NLS-1$
+        super( "échec du parsage « " + parsage + " » de la chaîne de caractères suivante : " + valeur ); //$NON-NLS-1$ //$NON-NLS-2$
+    }
+
+    /**
+     * Crée une exception
+     *
+     * @param message message à afficher
+     * @param cause   cause de l’exception
+     */
+    public ParsageInvalideException( final String message, final Throwable cause ) {
+        super( message, cause );
     }
 }

@@ -3,9 +3,9 @@ package seven_wonders;
 import java.util.EnumMap;
 import java.util.Objects;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.NodeList;
+import org.json.AttributJSONInvalideException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import seven_wonders.utils.Quantite;
 
@@ -14,63 +14,15 @@ import seven_wonders.utils.Quantite;
  */
 public class Cout {
     private static final String ATTRIBUT_CATEGORIE  = "categorie";           //$NON-NLS-1$
-    private static final String ATTRIBUT_QUANTITE   = "quantite";            //$NON-NLS-1$
     private static final String ATTRIBUT_TYPE       = "type";                //$NON-NLS-1$
-    private static final String BALISE_COUT         = "cout";                //$NON-NLS-1$
     private static final String MATIERE_PREMIERE    = "matiere premiere";    //$NON-NLS-1$
     private static final String PIECES              = "pieces";              //$NON-NLS-1$
     private static final String PRODUIT_MANUFACTURE = "produit manufacture"; //$NON-NLS-1$
 
     /**
-     * Génère un coût à l’aide d’un conteneur XML
-     *
-     * @param  conteneur            élément XML contenant le(s) coût(s)
-     * @return                      le coût généré
-     * @throws NullPointerException si l’élément XML est nul
+     * Nom par défaut d’un attribut contenant un coût
      */
-    public static Cout generer( final Element conteneur ) {
-        final NodeList                                  nodes                = Objects.requireNonNull( conteneur )
-                                                                                      .getElementsByTagName( BALISE_COUT );
-        final Quantite                                  pieces               = new Quantite();
-        final EnumMap<TypeMatierePremiere, Quantite>    matieresPremieres    = new EnumMap<>( TypeMatierePremiere.class );
-        final EnumMap<TypeProduitManufacture, Quantite> produitsManufactures = new EnumMap<>( TypeProduitManufacture.class );
-        for ( int i = 0 ; i < nodes.getLength() ; ++i ) {
-            final NamedNodeMap attributs = nodes.item( i )
-                                                .getAttributes();
-            final String       categorie = attributs.getNamedItem( ATTRIBUT_CATEGORIE )
-                                                    .getTextContent();
-            switch ( categorie ) {
-            case PIECES:
-                pieces.ajouter( Integer.parseInt( attributs.getNamedItem( ATTRIBUT_QUANTITE )
-                                                           .getTextContent() ) );
-                break;
-            case MATIERE_PREMIERE:
-                matieresPremieres.compute( TypeMatierePremiere.valueOf( attributs.getNamedItem( ATTRIBUT_TYPE )
-                                                                                 .getTextContent()
-                                                                                 .toUpperCase() ),
-                                           ( indice, quantite ) -> quantite == null
-                                                   ? new Quantite( Integer.parseInt( attributs.getNamedItem( ATTRIBUT_QUANTITE )
-                                                                                              .getTextContent() ) )
-                                                   : quantite.ajouter( Integer.parseInt( attributs.getNamedItem( ATTRIBUT_QUANTITE )
-                                                                                                  .getTextContent() ) ) );
-                break;
-            case PRODUIT_MANUFACTURE:
-                produitsManufactures.compute( TypeProduitManufacture.valueOf( attributs.getNamedItem( ATTRIBUT_TYPE )
-                                                                                       .getTextContent()
-                                                                                       .toUpperCase() ),
-                                              ( indice,
-                                                quantite ) -> quantite
-                                                              == null ? new Quantite( Integer.parseInt( attributs.getNamedItem( ATTRIBUT_QUANTITE )
-                                                                                                                 .getTextContent() ) )
-                                                                      : quantite.ajouter( Integer.parseInt( attributs.getNamedItem( ATTRIBUT_QUANTITE )
-                                                                                                                     .getTextContent() ) ) );
-                break;
-            default:
-                throw new AttributXMLInvalideException( ATTRIBUT_CATEGORIE, categorie );
-            }
-        }
-        return new Cout( pieces, matieresPremieres, produitsManufactures );
-    }
+    public static final String ATTRIBUT = "cout"; //$NON-NLS-1$
 
     /**
      * Coût en pièces
@@ -113,6 +65,34 @@ public class Cout {
     }
 
     /**
+     * Crée un coût à partir d’une liste JSON
+     *
+     * @param  liste                liste JSON
+     * @throws NullPointerException si la liste JSON est nulle
+     */
+    public Cout( final JSONArray liste ) {
+        Objects.requireNonNull( liste );
+        pieces               = new Quantite();
+        matieresPremieres    = new EnumMap<>( TypeMatierePremiere.class );
+        produitsManufactures = new EnumMap<>( TypeProduitManufacture.class );
+        liste.forEach( objet -> ajouter( (JSONObject) objet ) );
+    }
+
+    /**
+     * Crée un coût à partir d’un objet JSON
+     *
+     * @param  objet                objet JSON
+     * @throws NullPointerException si l’objet JSON est nul
+     */
+    public Cout( final JSONObject objet ) {
+        Objects.requireNonNull( objet );
+        pieces               = new Quantite();
+        matieresPremieres    = new EnumMap<>( TypeMatierePremiere.class );
+        produitsManufactures = new EnumMap<>( TypeProduitManufacture.class );
+        ajouter( objet );
+    }
+
+    /**
      * Crée un coût
      *
      * @param  pieces               coût en pièces
@@ -138,5 +118,37 @@ public class Cout {
         this.pieces               = Objects.requireNonNull( pieces );
         this.matieresPremieres    = Objects.requireNonNull( matieresPremieres );
         this.produitsManufactures = Objects.requireNonNull( produitsManufactures );
+    }
+
+    /**
+     * Ajoute un objet JSON au coût
+     *
+     * @param  objet                objet JSON à ajouter
+     * @throws NullPointerException si l’objet JSON est nul
+     */
+    private void ajouter( final JSONObject objet ) {
+        final String categorie = Objects.requireNonNull( objet )
+                                        .getString( ATTRIBUT_CATEGORIE );
+        switch ( categorie ) {
+        case PIECES:
+            pieces.ajouter( objet.getInt( Quantite.ATTRIBUT ) );
+            break;
+        case MATIERE_PREMIERE:
+            matieresPremieres.compute( TypeMatierePremiere.valueOf( objet.getString( ATTRIBUT_TYPE )
+                                                                         .toUpperCase() ),
+                                       ( indice, quantite ) -> quantite == null
+                                               ? new Quantite( Integer.parseInt( objet.getString( Quantite.ATTRIBUT ) ) )
+                                               : quantite.ajouter( Integer.parseInt( objet.getString( Quantite.ATTRIBUT ) ) ) );
+            break;
+        case PRODUIT_MANUFACTURE:
+            produitsManufactures.compute( TypeProduitManufacture.valueOf( objet.getString( ATTRIBUT_TYPE )
+                                                                               .toUpperCase() ),
+                                          ( indice, quantite ) -> quantite == null
+                                                  ? new Quantite( Integer.parseInt( objet.getString( Quantite.ATTRIBUT ) ) )
+                                                  : quantite.ajouter( Integer.parseInt( objet.getString( Quantite.ATTRIBUT ) ) ) );
+            break;
+        default:
+            throw new AttributJSONInvalideException( ATTRIBUT_CATEGORIE, categorie );
+        }
     }
 }

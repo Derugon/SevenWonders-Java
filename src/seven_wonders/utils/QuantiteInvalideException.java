@@ -15,7 +15,7 @@ public class QuantiteInvalideException extends RuntimeException {
      * @param valeur valeur obtenue
      */
     public QuantiteInvalideException( final int valeur ) {
-        super( Messages.getString( "QuantiteInvalideException.message" ) + valeur ); //$NON-NLS-1$
+        super( "quantité positive attendue, quantité obtenue : " + valeur ); //$NON-NLS-1$
     }
 
     /**
@@ -25,5 +25,15 @@ public class QuantiteInvalideException extends RuntimeException {
      */
     public QuantiteInvalideException( final String message ) {
         super( message );
+    }
+
+    /**
+     * Crée une exception
+     *
+     * @param message message à afficher
+     * @param cause   cause de l’exception
+     */
+    public QuantiteInvalideException( final String message, final Throwable cause ) {
+        super( message, cause );
     }
 }

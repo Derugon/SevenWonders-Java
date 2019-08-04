@@ -1,7 +1,8 @@
 package seven_wonders.effets;
 
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
+import java.util.Objects;
+
+import org.json.JSONObject;
 
 import seven_wonders.Joueur;
 import seven_wonders.TypeMatierePremiere;
@@ -11,23 +12,10 @@ import seven_wonders.utils.Quantite;
  * Effet produisant une matière première
  */
 public class EffetMatierePremiere extends EffetRessourceX {
-    private static final String TYPE = "type"; //$NON-NLS-1$
+    private static final String ATTRIBUT_TYPE = "type"; //$NON-NLS-1$
 
     static {
-        Effet.ajouterType( "matiere premiere", EffetMatierePremiere::generer ); //$NON-NLS-1$
-    }
-
-    /**
-     * Génère un effet à l’aide d’une node XML
-     *
-     * @param  node node XML
-     * @return      l’effet généré
-     */
-    public static EffetMatierePremiere generer( final Node node ) {
-        final NamedNodeMap attributs = node.getAttributes();
-        return new EffetMatierePremiere( TypeMatierePremiere.valueOf( attributs.getNamedItem( TYPE )
-                                                                               .getTextContent()
-                                                                               .toUpperCase() ) );
+        Effet.ajouterType( "matiere premiere", objet -> new EffetMatierePremiere( objet ) ); //$NON-NLS-1$
     }
 
     /**
@@ -44,6 +32,19 @@ public class EffetMatierePremiere extends EffetRessourceX {
     public EffetMatierePremiere( final EffetMatierePremiere autre ) {
         super( autre );
         type = autre.type;
+    }
+
+    /**
+     * Crée un effet produisant une unité d’une matière première à partir d’un objet
+     * JSON
+     *
+     * @param  objet                objet JSON
+     * @throws NullPointerException si l’objet JSON est nul
+     */
+    public EffetMatierePremiere( final JSONObject objet ) {
+        super( objet );
+        type = TypeMatierePremiere.fromJSONString( Objects.requireNonNull( objet )
+                                                          .getString( ATTRIBUT_TYPE ) );
     }
 
     /**
@@ -97,6 +98,11 @@ public class EffetMatierePremiere extends EffetRessourceX {
     @Override
     public int hashCode() {
         return 31 * super.hashCode() + type.hashCode();
+    }
+
+    @Override
+    public JSONObject toJSONObject() {
+        return super.toJSONObject().put( ATTRIBUT_TYPE, type.toJSONString() );
     }
 
     /**

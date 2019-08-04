@@ -2,6 +2,7 @@ package seven_wonders.utils;
 
 import java.util.Objects;
 import java.util.function.IntConsumer;
+import java.util.function.Procedure;
 
 import org.json.JSONString;
 
@@ -15,6 +16,11 @@ public class Quantite extends Number implements Comparable<Number>, DeepCloneabl
     private static final long serialVersionUID = 1494770605602731878L;
 
     private static final IntConsumer RESTE_VIDE = reste -> { /* ... */ };
+
+    /**
+     * Nom par défaut d’un attribut contenant une quantité
+     */
+    public static final String ATTRIBUT = "quantite"; //$NON-NLS-1$
 
     /**
      * Crée une quantité par la somme de quantités

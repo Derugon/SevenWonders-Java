@@ -2,6 +2,7 @@ package seven_wonders.utils;
 
 import java.util.Objects;
 import java.util.function.IntConsumer;
+import java.util.function.Procedure;
 
 /**
  * Quantité limitée
